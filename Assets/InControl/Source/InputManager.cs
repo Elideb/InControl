@@ -443,7 +443,9 @@ namespace InControl
 		/// If set, all profiles found there and compatible with the OS will be tested.
 		/// </summary>
 		public static string CustomProfilesPath {
-			get { return customProfilesPath; }
+			get {
+				return customProfilesPath;
+			}
 			set {
 				if (isSetup) {
 					throw new Exception("InputManager.CustomProfilePath must be set before calling InputManager.Setup().");
@@ -451,10 +453,19 @@ namespace InControl
 
 				if (string.IsNullOrEmpty(value)) {
 					customProfilesPath = null;
-				} else if (value.EndsWith("/")) {
-					customProfilesPath = value;
 				} else {
-					customProfilesPath = value + "/";
+					var fullPath = value;
+					if (!Path.IsPathRooted(fullPath)) {
+						if (!fullPath.StartsWith("/"))
+							fullPath = "/" + fullPath;
+
+						fullPath = Application.dataPath + fullPath;
+					}
+
+					if (!fullPath.EndsWith("/"))
+						fullPath += "/";
+
+					customProfilesPath = fullPath;
 				}
 			}
 		}

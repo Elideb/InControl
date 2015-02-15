@@ -212,10 +212,9 @@ namespace InControl
 		}
 
 
-		void LoadCustomDeviceProfiles(string path) {
-			string fullPath = System.IO.Path.IsPathRooted(path) ? path : Application.dataPath + "/" + path;
-
+		void LoadCustomDeviceProfiles(string fullPath) {
 			Logger.LogInfo("Looking for custom profiles in " + fullPath);
+
 			foreach (var filePath in System.IO.Directory.GetFiles(fullPath, "*.profile", System.IO.SearchOption.TopDirectoryOnly)) {
 				UnityCustomDeviceProfile deviceProfile = null;
 				try {
