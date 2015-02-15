@@ -33,6 +33,12 @@ namespace InControl
 		static bool enableXInput;
 		static bool isSetup;
 
+		/// <summary>
+		/// Used to indicate where to look for custom text profiles.
+		/// If set, all profiles found there and compatible with the OS will be tested.
+		/// </summary>
+		static string customProfilesPath = null;
+
 		static float initialTime;
 		static float currentTime;
 		static float lastUpdateTime;
@@ -431,6 +437,28 @@ namespace InControl
 				return unityVersion.Value;
 			}
 		}
+
+		/// <summary>
+		/// Used to indicate where to look for custom text profiles.
+		/// If set, all profiles found there and compatible with the OS will be tested.
+		/// </summary>
+		public static string CustomProfilesPath {
+			get { return customProfilesPath; }
+			set {
+				if (isSetup) {
+					throw new Exception("InputManager.CustomProfilePath must be set before calling InputManager.Setup().");
+				}
+
+				if (string.IsNullOrEmpty(value)) {
+					customProfilesPath = null;
+				} else if (value.EndsWith("/")) {
+					customProfilesPath = value;
+				} else {
+					customProfilesPath = value + "/";
+				}
+			}
+		}
+
 	}
 }
 

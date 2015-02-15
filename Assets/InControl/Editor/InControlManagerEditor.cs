@@ -16,6 +16,7 @@ namespace InControl
 		SerializedProperty useFixedUpdate;
 		SerializedProperty dontDestroyOnLoad;
 		SerializedProperty customProfiles;
+		SerializedProperty textProfilesPath;
 		Texture headerTexture;
 		
 
@@ -27,6 +28,7 @@ namespace InControl
 			useFixedUpdate = serializedObject.FindProperty( "useFixedUpdate" );
 			dontDestroyOnLoad = serializedObject.FindProperty( "dontDestroyOnLoad" );
 			customProfiles = serializedObject.FindProperty( "customProfiles" );
+			textProfilesPath = serializedObject.FindProperty("textProfilesPath");
 
 			var path = AssetDatabase.GetAssetPath( MonoScript.FromScriptableObject( this ) );
 			headerTexture = Resources.LoadAssetAtPath<Texture>( Path.GetDirectoryName( path ) + "/Images/InControlHeader.png" );
@@ -50,6 +52,7 @@ namespace InControl
 			enableXInput.boolValue = EditorGUILayout.ToggleLeft( "Enable XInput (Windows)", enableXInput.boolValue );
 			useFixedUpdate.boolValue = EditorGUILayout.ToggleLeft( "Use Fixed Update", useFixedUpdate.boolValue );
 			dontDestroyOnLoad.boolValue = EditorGUILayout.ToggleLeft( "Don't Destroy On Load", dontDestroyOnLoad.boolValue );
+			textProfilesPath.stringValue = EditorGUILayout.TextField("Text Profiles Path", textProfilesPath.stringValue);
 
 			ReorderableListGUI.Title( "Custom Profiles" );
 			ReorderableListGUI.ListField( customProfiles );

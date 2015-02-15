@@ -20,6 +20,9 @@ namespace InControl
 		public UnityInputDeviceManager()
 		{
 			AutoDiscoverDeviceProfiles();
+			if (!string.IsNullOrEmpty(InputManager.CustomProfilesPath)) {
+				LoadCustomDeviceProfiles(InputManager.CustomProfilesPath);
+			}
 			RefreshDevices();
 		}
 
@@ -205,6 +208,30 @@ namespace InControl
 
 					Logger.LogInfo( "Detached device: " + inputDevice.Profile.Name );
 				}
+			}
+		}
+
+
+		void LoadCustomDeviceProfiles(string path) {
+			string fullPath = System.IO.Path.IsPathRooted(path) ? path : Application.dataPath + "/" + path;
+
+			Logger.LogInfo("Looking for custom profiles in " + fullPath);
+			foreach (var filePath in System.IO.Directory.GetFiles(fullPath, "*.profile", System.IO.SearchOption.TopDirectoryOnly)) {
+				UnityCustomDeviceProfile deviceProfile = null;
+				try {
+					deviceProfile = CustomProfileReader.LoadProfile(filePath);
+				} catch (Exception e) {
+					Logger.LogWarning("Error loading custom profile '" + filePath + "'." + System.Environment.NewLine + "Error: " + e.ToString());
+					continue;
+				}
+
+				if (deviceProfile.IsSupportedOnThisPlatform) {
+					Logger.LogInfo("Adding custom profile: " + deviceProfile.Name);
+					deviceProfiles.Add(deviceProfile);
+				} else {
+					Logger.LogInfo("Ignored unsupported custom profile: " + deviceProfile.Name);
+				}
+				
 			}
 		}
 

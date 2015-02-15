@@ -15,6 +15,7 @@ namespace InControl
 		public bool useFixedUpdate = false;
 		public bool dontDestroyOnLoad = false;
 		public List<string> customProfiles = new List<string>();
+		public string textProfilesPath = string.Empty;
 
 
 		void OnEnable()
@@ -27,6 +28,9 @@ namespace InControl
 
 			InputManager.InvertYAxis = invertYAxis;
 			InputManager.EnableXInput = enableXInput;
+
+			InputManager.CustomProfilesPath = textProfilesPath;
+
 			InputManager.SetupInternal();
 
 			foreach (var className in customProfiles)
