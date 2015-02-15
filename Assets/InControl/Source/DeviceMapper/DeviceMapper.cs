@@ -118,7 +118,7 @@ public class DeviceMapper : MonoBehaviour {
 
 	private bool calibrating = false;
 	private float calibrationStartTime = 0;
-	[Range(.5f, 5)]
+	[UnityEngine.Range(.5f, 5)]
 	public float calibrationTime = 5;
 
 	private Dictionary<int, float> deviceDefaultValues = new Dictionary<int, float>();
